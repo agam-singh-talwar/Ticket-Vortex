@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}
+Add Consert
+{% endblock %}
+{% block content %}
+<br><br>
+
+<body class="text-center">
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" style="text-align: left">
+            {{ form.hidden_tag() }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form.title.label }}
+                    {{ form.title(class="form-control") }}
+                </div>
+                <div class="col">
+                    {{ form.artist.label }}
+                    {{ form.artist(class="form-control") }}
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col">
+                    {{ form.image.label }}
+                    <br>
+                    <img src="" alt="consert cover" width="98%" class="invisible" id="preview">
+                    <br>
+                    {{ form.image }}
+                </div>
+                <div class="col">
+                    {{ form.description.label }}
+                    <br>
+                    {{ form.description(style="width: 100%; height: 200px") }}
+                    <br>
+                    {{ form.date.label }}
+                    <br>
+                    {{ form.date }}
+                    <br>
+                    {{ form.time.label }}
+                    <br>
+                    {{ form.time }}
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col">
+                    {{ form.utilization.label }}
+                    {{ form.utilization }}
+                    <p>Utilization: %<span id="utilization-current">0</span></p>
+                </div>
+                <div class="col">
+                    {{ form.venue.label }}
+                    {{ form.venue }}
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col">
+                    {{ form.floorPrice.label }}
+                    {{ form.floorPrice }}
+                    <br>
+                    {{ form.bowlPrice.label }}
+                    {{ form.bowlPrice }}
+                    <br>
+                    {{ form.boxPrice.label }}
+                    {{ form.boxPrice }}
+                </div>
+                <div class="col">
+                    <p>Number of floor seats: <span id="floor-count">{{venues[0].sections.floor}}</span></p>
+                    <p>Number of bowl seats: <span id="bowl-count">{{venues[0].sections.bowl}}</span></p>
+                    <p>Number of box seats: <span id="box-count">{{venues[0].sections.box}}</span></p>
+                </div>
+            </div>
+
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</body>
+<script defer>
+    const utilization = document.querySelector('#utilization');
+    const current = document.querySelector('#utilization-current');
+    let u = utilization.value;
+
+    u = Math.round(utilization.value);
+    current.textContent = u;
+
+    function calculateSeats() {
+        const usage = u / 100;
+
+        switch (venue.value) {
+            case '64038bc348aac9e739e734f2':
+                floor.textContent = Math.floor('{{venues[0].sections.floor}}' * usage);
+                bowl.textContent = Math.floor('{{venues[0].sections.bowl}}' * usage);
+                box.textContent = Math.floor('{{venues[0].sections.box}}' * usage);
+                break;
+
+            case '64038db2ffbf6fe0e51b555d':
+                floor.textContent = Math.floor('{{venues[1].sections.floor}}' * usage);
+                bowl.textContent = Math.floor('{{venues[1].sections.bowl}}' * usage);
+                box.textContent = Math.floor('{{venues[1].sections.box}}' * usage);
+                break;
+
+            case '640390b446140ae93a279eb1':
+                floor.textContent = Math.floor('{{venues[2].sections.floor}}' * usage);
+                bowl.textContent = Math.floor('{{venues[2].sections.bowl}}' * usage);
+                box.textContent = Math.floor('{{venues[2].sections.box}}' * usage);
+                break;
+
+            case '6403917b74814f460a9c5f46':
+                floor.textContent = Math.floor('{{venues[3].sections.floor}}' * usage);
+                bowl.textContent = Math.floor('{{venues[3].sections.bowl}}' * usage);
+                box.textContent = Math.floor('{{venues[3].sections.box}}' * usage);
+                break;
+        }
+    }
+
+    utilization.addEventListener('input', (event) => {
+        u = Math.round(event.target.value);
+        current.textContent = u;
+
+        calculateSeats();
+    });
+
+    const image = document.querySelector('#image');
+    const preview = document.querySelector('#preview');
+
+    image.addEventListener('change', () => {
+        const raw = image.files[0];
+        const url = URL.createObjectURL(raw);
+
+        preview.classList.remove('invisible')
+        preview.setAttribute('src', url);
+    });
+
+    preview.addEventListener('onload', () => {
+        URL.revokeObjectURL(preview.src);
+    });
+
+    const venue = document.querySelector('#venue');
+    const floor = document.querySelector('#floor-count');
+    const bowl = document.querySelector('#bowl-count');
+    const box = document.querySelector('#box-count');
+
+    venue.addEventListener('change', () => calculateSeats());
+
+    document.addEventListener('DOMContentLoaded', () => {
+        calculateSeats();
+        preview.classList.remove('invisible')
+        preview.setAttribute('src', 'data:image/jpeg;base64, {{form.preview}}');
+    });
+</script>
+{% endblock %}

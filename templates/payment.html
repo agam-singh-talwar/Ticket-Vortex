@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}
+Purchase Tickets
+{% endblock %}
+{% block content %}
+<br><br>
+    <body class="text-center">
+        <div class="container">
+            <img src="/static/Vortex.png" alt="Tornado" class="mb-4" style="width:150px" style="height:auto;">
+            <br>
+            <form method="POST" action="/payment" class="form-resterater" style="color: aliceblue;">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">First Name</label>
+                      <input type="text" class="form-control" id="text" placeholder="Cardholder's name">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputPassword4">Last Name</label>
+                      <input type="text" class="form-control" id="text" placeholder="Last name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress2">Card Number</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="1234 - 1234 - 1234 - 1234">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-3">
+                      <label for="inputCity"> Expiry  </label>
+                      <input type="text" class="form-control" id="inputCity" placeholder="MM">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="inputCity"> . </label>
+                      <input type="text" class="form-control" id="inputCity" placeholder="YY">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputZip">CVV</label>
+                      <input type="text" class="form-control" id="inputZip" placeholder="CVV">
+                    </div>
+                  </div>
+                  <br>
+                  <button type="submit" class="btn btn-success">Spend some Benjamins🤑!.</button>
+            </form>
+        </div>
+    </body>
+{% endblock %}

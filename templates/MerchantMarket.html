@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Ticket Vortex -  Merchant Market Page
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="row" style="margin-top: 20px; margin-left: 20p;">
+    <div class="col-12">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Concert</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Venue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for concert in user['concerts'] %}
+                <tr>
+                    <td scope="col">{{concert.title}}</td>
+                    <td scope="col">{{concert.artist}}</td>
+                    <td scope="col">{{concert.description}}</td>
+                    <td scope="col">{{concert.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                    <td scope="col">{{concert.venue.name}}</td>
+                    <td scope="col">
+                        <a class="nav-link btn btn-info" href="{{url_for('merchant_edit_concert',title=concert.title)}}">Edit</a>
+                    </td>
+                    <td scope="col">
+                        <a class="nav-link btn btn-danger"href="{{url_for('merchant_remove_concert',title=concert.title)}}" >Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <a href="{{url_for('concert_page')}}" class="nav-link btn btn-lg btn-outline btn-info"> Add </a>
+    </div>
+</div>
+{% endblock %}

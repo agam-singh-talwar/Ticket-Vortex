@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}
+    Ticket Vortex - Market Page
+{% endblock %}
+
+{% block content %}
+
+
+        {% if session.user %}
+        {% if 'merchant' in session %}
+        <div class="row" style="margin-top: 20px; margin-left: 20p;margin-right: 10px;">
+            <div class="col-12">
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Concert 🎵 </th>
+                            <th scope="col">Artist 👽</th>
+                            <th scope="col">description 💬</th>
+                            <th scope="col">Date 🗓️</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{item.title}}</td>
+                            <td>{{item.artist}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                            <td>
+                                <a href="{{ url_for('purchase_page', title=item.title) }}"> <button class="btn btn-outline btn-info">More Info</button> </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="row" style="margin-top: 20px; margin-left: 20px; margin-right: 10px;">
+            <div class="col-8">
+                <h2>Upcoming <span class="text-warning"> Vortexes🌪️ </span></h2>
+                <h5>Be a part of the next stage <span class="text-info"> breaker🎸.</span></h5>
+                <br>
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Concert 🎵 </th>
+                            <th scope="col">Artist 👽</th>
+                            <th scope="col">description 💬</th>
+                            <th scope="col">Date 🗓️</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{item.title}}</td>
+                            <td>{{item.artist}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                            <td>
+                                <a href="{{ url_for('purchase_page', title=item.title) }}"> <button class="btn btn-outline btn-info">More Info</button> </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4">
+                    <h2>Spend some <span class="text-success"> Benjamins💸💸</span></h2>
+                    <h5><span class="text-success"> Money💰</span> ain't forever, but <span class="text-warning"> Vortexes🌪️ </span>are!!</h5>
+                    <br>
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Section🚽</th>
+                                <th scope="col text-success">Price🤑</th>
+                                <th scope="col">Concert🎺</th>
+                                <th scope="col">Qty🛒</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in session.cart %}
+                            <thead>
+                                <tr>
+                                    <td scope="col">{{ticket.section}}</td>
+                                    <td scope="col" class="text-success">$ {{ticket.price}}</td>
+                                    <td scope="col">{{ticket.concert}}</td>
+                                    <td scope="col" class="text-info">{{ticket.quantity}}</td>
+                                    <td scope="col"><a class="nav-link btn btn-danger"href="/removeFromCart/{{ticket.num}}" >Delete</a></td>
+                                </tr>
+                            </thead>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <br>
+                    <a href="/buyNow"> <button class="btn btn-outline btn-success">Buy them all</button> </a>
+                </span>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+            <div class="row" style="margin-top: 20px; margin-left: 20px; margin-right: 10px;">
+                <div class="col-12">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Concert 🎵 </th>
+                                <th scope="col">Artist 👽</th>
+                                <th scope="col">description 💬</th>
+                                <th scope="col">Date 🗓️</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{item.title}}</td>
+                                <td>{{item.artist}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                                <td>
+                                    <a href="{{ url_for('purchase_page', title=item.title) }}"> <button class="btn btn-outline btn-info">More Info</button> </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        {% if session.merchant %}
+        {%endif%}
+<br>
+{% endblock %}

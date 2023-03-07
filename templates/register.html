@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+    Register User
+{% endblock %}
+{% block content %}
+<br><br>
+<body class="text-center">
+    <div class="container">
+        <img src="/static/Vortex.png" alt="Tornado" class="mb-4" style="width:150px" style="height:auto;">
+        <form method="POST" class="form-resterater" style="color: aliceblue;">
+            {{ form.hidden_tag() }}
+            {{form.Name.label() }}
+            {{ form.Name(class="form-control", placeholder="Name") }}
+            {{form.Email.label() }}
+            {{ form.Email(class="form-control", placeholder="Email") }}
+            {{form.Pass1.label() }}
+            {{ form.Pass1(class="form-control", placeholder="Password") }}
+            {{form.Pass2.label() }}
+            {{ form.Pass2(class="form-control", placeholder="Re-eneter your password") }}
+            <br>
+            {{form.Bulk.label() }}
+            {{ form.Bulk(class="form-control") }}
+            <br>
+            {{ form.Submit(class="form-control btn-primary", placeholder="Create Account") }}
+
+            <br>
+            <div class="checkbox mb-3">
+                <h6>Already have an account?!</h6>
+                <a href="{{ url_for('login_page') }}" class="btn btn-sm btn-secondary">Log In</a>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

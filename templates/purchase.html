@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}
+    Purchase Page
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card" style="background-color: #212121;">
+            <div class="card-body">
+                <h3 class="card-title"><strong>{{concert.title}}</strong></h3>
+                <h5 class="card-subtitle">( {{concert.artist}} )</h5>
+                <br>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <div class="white-box text-center"><img src="data:image/jpeg;base64, {{concert.image}}" width="430" height="600" class="img-responsive"></div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-6">
+                        <h4 class="box-title mt-5">Concert Description</h4>
+                        <p>{{concert.description}}</p>
+                        <h2 class="mt-5">
+                            Floor Seats: ${{concert.price['floor']}}<br>
+                            Bowl Seats: ${{concert.price['bowl']}}<br>
+                            Box Seats: ${{concert.price['box']}}<br>
+                        </h2>
+                        <br><br>
+                        {% if 'merchant' not in session %}
+                        <form method="POST" action="/add_to_cart">
+                            <input type="hidden" id="concert" name="concert" value="{{concert.title}}">
+                            <input type="hidden" id="util" name="util" value="{{concert.utilization}}">
+                            <input type="hidden" id="floorPrice" name="floorPrice" value="{{concert.price['floor']}}">
+                            <input type="hidden" id="bowlPrice" name="bowlPrice" value="{{concert.price['bowl']}}">
+                            <input type="hidden" id="boxPrice" name="boxPrice" value="{{concert.price['box']}}">
+                            <input type="hidden" id="floorTickets" name="floorTickets" value="{{concert.venue.sections['floor']}}">
+                            <input type="hidden" id="bowlTickets" name="bowlTickets" value="{{concert.venue.sections['bowl']}}">
+                            <input type="hidden" id="boxTickets" name="boxTickets" value="{{concert.venue.sections['box']}}">
+                            
+                            <label for="dropdown"><strong>Select Section: </strong>
+                                <select id="dropdown" name="section">
+                                    {% for section in concert.venue.sections %}
+                                        <option value="{{section}}">{{section}}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                            <label for="amount"><strong>Enter ticket amount: </strong> 
+                                {% if user.isBulkBuyer %}
+                                    <input type="number" name="amount" id="amount" value="20" min="20">
+                                {% else %}
+                                    <input type="number" name="amount" id="amount" value="1"  min = "1" max="19">
+                                {% endif %}
+                            </label>
+                            <br><br>
+                            
+                            <input class="nav-link btn btn-lg btn-outline btn-info" type="submit" value="Add to cart"><br>
+                            <input class="nav-link btn btn-lg btn-outline btn-success" type="submit" value="Buy Now" formaction="/buyNow">
+                            
+                        </form>
+                        {%endif%}
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3 class="box-title mt-5">General Info</h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-product">
+                                <tbody>
+                                    <tr>
+                                        <td width="390">Location</td>
+                                        <td>{{concert.venue.location}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Available seats</td>
+                                        <td>{{concert.venue.totalSeats}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Floor seats</td>
+                                        <td>{{concert.venue.sections.floor}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bowl seats</td>
+                                        <td>{{concert.venue.sections.bowl}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Box seats</td>
+                                        <td>{{concert.venue.sections.box}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>{{concert.date.strftime('%Y-%m-%d %H:%M')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>{{concert.venue.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
